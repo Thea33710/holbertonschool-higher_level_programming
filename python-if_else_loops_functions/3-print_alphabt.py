@@ -1,7 +1,4 @@
 #!/usr/bin/python3
-a = 97
-while a <= 122:
-    if a != 101 and a != 113:
-        print(chr(a), end="")
-
-    a += 1
+for i in range(97, 123):
+    if i != 101 and i != 113:
+        print("{:c}".format(i), end="")
