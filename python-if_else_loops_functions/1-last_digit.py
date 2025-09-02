@@ -5,6 +5,9 @@ number = random.randint(-10000, 10000)
 # Récupérer la valeur absolue du dernier chiffre de number
 last_digit = abs(number) % 10
 
+if number < 0:
+    last_digit = -last_digit
+
 # On vérifie la valeur du dernier chiffre et on affiche le message adapté
 if last_digit == 0:
     # Si le dernier chiffre est 0
