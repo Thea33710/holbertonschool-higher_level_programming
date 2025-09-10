@@ -1,0 +1,32 @@
+>>> text_indentation = __import__("5-text_indentation").text_indentation
+>>> text_indentation("Bonjour. Je suis là? Oui: et toi.")
+Bonjour.
+<BLANKLINE>
+Je suis là?
+<BLANKLINE>
+Oui:
+<BLANKLINE>
+et toi.
+>>> text_indentation("Hello: World. Again?")
+Hello:
+<BLANKLINE>
+World.
+<BLANKLINE>
+Again?
+>>> text_indentation("Aucune ponctuation ici")
+Aucune ponctuation ici
+>>> text_indentation("")  # Test texte vide
+>>> text_indentation("Salut! Comment ça va?")
+Salut! Comment ça va?
+>>> text_indentation("Salut.   Comment ça va?")
+Salut.
+<BLANKLINE>
+Comment ça va?
+>>> text_indentation("Ceci est une phrase.   Une autre ?Et enfin:  la dernière.")
+Ceci est une phrase.
+<BLANKLINE>
+Une autre ?
+<BLANKLINE>
+Et enfin:
+<BLANKLINE>
+la dernière.
