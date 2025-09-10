@@ -10,6 +10,7 @@ exception si les types sont invalides.
 
 
 def add_integer(a, b=98):
+
     """
     Additionne deux nombres entiers ou flottants.
 

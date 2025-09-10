@@ -21,28 +21,38 @@ def text_indentation(text):
         TypeError: If text is not a string
 
     Returns:
-        Nothing.
+        None.
     """
 
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 
-    separators = ['.', '?', ':']
+    sentence = ""
+    result = ""
+    i = 0
+    while i < len(text):
+        if text[i] == " ":
+            j = i
 
-    result = []
-    temp = ""
+            while j < len(text) and text[j] == " ":
+                j += 1
 
-    for char in text:
-        temp += char
-        if char in separators:
-            result.append(temp.strip())
-            temp = ""
+            if j < len(text) and text[j] in ".?:":
+                i = j
+                continue
 
-    if temp.strip():
-        result.append(temp.strip())
+        result += text[i]
+        i += 1
 
-    for i, sentence in enumerate(result):
-        print(sentence)
+    text = result
 
-        if i != len(result) - 1:
+    for i in range(len(text)):
+        sentence += text[i]
+
+        if text[i] == "." or text[i] == "?" or text[i] == ":":
+            print(sentence.strip(), end="")
             print()
+            print()
+            sentence = ""
+
+    print(sentence.strip(), end="")

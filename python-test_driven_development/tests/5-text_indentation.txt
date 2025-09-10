@@ -1,32 +1,41 @@
 >>> text_indentation = __import__("5-text_indentation").text_indentation
->>> text_indentation("Bonjour. Je suis là? Oui: et toi.")
-Bonjour.
+
+>>> text_indentation("Hello. How are you? I am fine: thanks.")
+Hello.
 <BLANKLINE>
-Je suis là?
+How are you?
 <BLANKLINE>
-Oui:
+I am fine:
 <BLANKLINE>
-et toi.
->>> text_indentation("Hello: World. Again?")
-Hello:
+thanks.
 <BLANKLINE>
-World.
+
+>>> text_indentation("  Leading and trailing   .    ")
+Leading and trailing.
 <BLANKLINE>
-Again?
->>> text_indentation("Aucune ponctuation ici")
-Aucune ponctuation ici
->>> text_indentation("")  # Test texte vide
->>> text_indentation("Salut! Comment ça va?")
-Salut! Comment ça va?
->>> text_indentation("Salut.   Comment ça va?")
-Salut.
+
+>>> text_indentation("Line one: Line two. Line three?Done.")
+Line one:
 <BLANKLINE>
-Comment ça va?
->>> text_indentation("Ceci est une phrase.   Une autre ?Et enfin:  la dernière.")
-Ceci est une phrase.
+Line two.
 <BLANKLINE>
-Une autre ?
+Line three?
 <BLANKLINE>
-Et enfin:
+Done.
 <BLANKLINE>
-la dernière.
+
+>>> text_indentation("No punctuation here")
+No punctuation here
+
+>>> text_indentation("")
+
+>>> text_indentation(123)
+Traceback (most recent call last):
+    ...
+TypeError: text must be a string
+
+>>> text_indentation("    Space before:Space after    .")
+Space before:
+<BLANKLINE>
+Space after.
+<BLANKLINE>
