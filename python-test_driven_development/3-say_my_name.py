@@ -23,7 +23,7 @@ def say_my_name(first_name, last_name=""):
         Nothing.
     """
     if first_name == "" and last_name == "":
-        continue
+        print(f"My name is {first_name} {last_name}")
 
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
