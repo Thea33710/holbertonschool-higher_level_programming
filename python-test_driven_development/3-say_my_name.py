@@ -22,8 +22,8 @@ def say_my_name(first_name, last_name=""):
     Returns:
         Nothing.
     """
-    if first_name == "" and last_name == "":
-        print(f"My name is {first_name} {last_name}")
+    if first_name is None and last_name == "":
+        break
 
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
