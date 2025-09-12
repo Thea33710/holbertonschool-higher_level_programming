@@ -25,7 +25,9 @@ def print_square(size):
     """
 
     if size is None:
-        raise TypeError("misssing an argument")
+        raise TypeError(
+            "print_square() missing 1 required positional argument: 'size'"
+        )
 
     if isinstance(size, float) and size < 0:
         raise TypeError("size must be an integer")
