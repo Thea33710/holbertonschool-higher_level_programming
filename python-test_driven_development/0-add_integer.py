@@ -25,17 +25,23 @@ def add_integer(a, b=98):
         int: La somme de a et b, après conversion en entier.
     """
 
-    if isinstance(a, float) and a == a:
-        a = int(a)
-
-    if isinstance(b, float) and b == b:
-        b = int(b)
-
-    if not isinstance(a, int):
+    if not isinstance(a, (int, float)):
         raise TypeError("a must be an integer")
 
-    if not isinstance(b, int):
+    if not isinstance(b, (int, float)):
         raise TypeError("b must be an integer")
+
+    if isinstance(a, float) and a != a:
+        raise TypeError("a must be an integer")
+
+    if isinstance(b, float) and b != b:
+        raise TypeError("b must be an integer")
+
+    if isinstance(a, float):
+        a = int(a)
+
+    if isinstance(b, float):
+        b = int(b)
 
     c = a + b
 
