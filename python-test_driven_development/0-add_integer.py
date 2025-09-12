@@ -25,10 +25,10 @@ def add_integer(a, b=98):
         int: La somme de a et b, après conversion en entier.
     """
 
-    if isinstance(a, float):
+    if isinstance(a, float) and a == a:
         a = int(a)
 
-    if isinstance(b, float):
+    if isinstance(b, float) and b == b:
         b = int(b)
 
     if not isinstance(a, int):
