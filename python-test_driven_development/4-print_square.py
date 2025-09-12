@@ -23,6 +23,10 @@ def print_square(size):
     Returns:
         None.
     """
+
+    if size is None:
+        raise TypeError("misssing an argument")
+
     if isinstance(size, float) and size < 0:
         raise TypeError("size must be an integer")
 
