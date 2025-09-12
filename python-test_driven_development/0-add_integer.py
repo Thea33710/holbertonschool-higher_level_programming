@@ -25,17 +25,6 @@ def add_integer(a, b=98):
         int: La somme de a et b, après conversion en entier.
     """
 
-    if a is None and b == 98:
-        raise TypeError(
-            "add_integer() missing 2 required "
-            "positional arguments: 'a' and 'b'"
-        )
-
-    elif a is None:
-        raise TypeError(
-            "add_integer() missing 1 required positional argument: 'a'"
-        )
-
     if not isinstance(a, (int, float)):
         raise TypeError("a must be an integer")
 
