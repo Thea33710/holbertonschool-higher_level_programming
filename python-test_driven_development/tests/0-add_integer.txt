@@ -20,3 +20,15 @@ TypeError: a must be an integer
 3
 >>> add_integer(-5, 3)
 -2
+>>> add_integer()
+Traceback (most recent call last):
+    ...
+TypeError: add_integer() missing 1 required positional argument: 'a'
+>>> add_integer(float('inf'), 1)
+Traceback (most recent call last):
+    ...
+OverflowError: a is too large or not a finite number
+>>> add_integer(float('nan'), 1)
+Traceback (most recent call last):
+    ...
+OverflowError: a is too large or not a finite number

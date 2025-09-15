@@ -22,6 +22,8 @@ def say_my_name(first_name, last_name=""):
     Returns:
         Nothing.
     """
+    if first_name is None and last_name == "":
+        raise TypeError("missing 2 arguments")
 
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
