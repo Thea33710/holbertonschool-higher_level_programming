@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Class 5-square
+Class 6-square
 
 This class defines a square by a size.
 """
@@ -11,13 +11,14 @@ class Square:
 
     """Defines a square."""
 
-    def __init__(self, size=0):
+    def __init__(self, size=0, position=(0, 0)):
 
         """
         Initializes the square with a given size.
 
         Args:
             size (int): The size of the square.
+            position (tuple of int): set the position of the square.
 
         Raises:
             TypeError: If size is not an integer.
@@ -25,6 +26,7 @@ class Square:
         """
 
         self.size = size
+        self.position = position
 
     @property
     def size(self):
@@ -32,6 +34,13 @@ class Square:
         """Returns the size"""
 
         return self.__size
+
+    @property
+    def position(self):
+
+        """Returns position"""
+
+        return self.__position
 
     @size.setter
     def size(self, value):
@@ -55,6 +64,29 @@ class Square:
 
         self.__size = value
 
+    @position.setter
+    def position(self, value):
+
+        """
+        Set the position of the square.
+
+        Args:
+            value (tuple of int): The new position of the square.
+
+        Raises:
+            TypeError: If value is not a tuple of 2 positive integers.
+        """
+
+        if (
+            not isinstance(value, tuple) or
+            len(value) != 2 or
+            not all(isinstance(num, int) for num in value) or
+            not all(num >= 0 for num in value)
+        ):
+            raise TypeError("position must be a tuple of 2 positive integers")
+
+        self.__position = value
+
     def area(self):
 
         """Returns the current square area."""
@@ -69,5 +101,12 @@ class Square:
             print()
 
         else:
+            for y in range(self.position[1]):
+                print()
+
             for i in range(self.size):
+
+                for u in range(self.position[0]):
+                    print(" ", end="")
+
                 print("#" * self.size)
