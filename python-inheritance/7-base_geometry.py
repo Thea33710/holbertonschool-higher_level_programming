@@ -19,8 +19,8 @@ class BaseGeometry:
         Validates value.
 
         Args:
-            name: always a string.
-            value: a positive integer.
+            name (str): always a string.
+            value (int): a positive integer.
 
         Raises:
             TypeError: If value is not a integer.
