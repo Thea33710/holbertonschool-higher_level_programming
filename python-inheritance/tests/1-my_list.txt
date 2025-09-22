@@ -1,6 +1,23 @@
 >>> MyList = __import__("1-my_list").MyList
+
+>>> my_list = MyList()
+>>> print(my_list)
+[]
+
 >>> my_list = MyList([3, 1, 4, 2])
 >>> my_list.print_sorted()
 [1, 2, 3, 4]
 >>> print(my_list)
 [3, 1, 4, 2]
+
+>>> single = MyList([42])
+>>> single.print_sorted()
+[42]
+
+>>> sorted_list = MyList([1, 2, 3])
+>>> sorted_list.print_sorted()
+[1, 2, 3]
+
+>>> empty = MyList()
+>>> empty.print_sorted()
+[]
