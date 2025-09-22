@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+"""
+Function that returns True if the object is an instance of
+an inherit class of the specified class.
+"""
+
+
 def inherits_from(obj, a_class):
 
     """

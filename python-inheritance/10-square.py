@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+"""A geometry class."""
+
+
 class BaseGeometry:
 
     """A geometry class."""
@@ -29,6 +32,10 @@ class BaseGeometry:
 
         if value <= 0:
             raise ValueError(f"{name} must be greater than 0")
+
+
+"""A rectangle class."""
+
 
 class Rectangle(BaseGeometry):
 
@@ -66,6 +73,10 @@ class Rectangle(BaseGeometry):
         """Return the rectangle description: [Rectangle] <width>/<height>."""
 
         return "[Rectangle] {}/{}".format(self.__width, self.__height)
+
+
+"""A square class."""
+
 
 class Square(Rectangle):
 
