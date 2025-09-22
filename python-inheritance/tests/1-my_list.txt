@@ -3,6 +3,8 @@
 >>> my_list = MyList()
 >>> print(my_list)
 []
+>>> my_list.print_sorted()
+[]
 
 >>> my_list = MyList([3, 1, 4, 2])
 >>> my_list.print_sorted()
@@ -17,7 +19,3 @@
 >>> sorted_list = MyList([1, 2, 3])
 >>> sorted_list.print_sorted()
 [1, 2, 3]
-
->>> empty = MyList()
->>> empty.print_sorted()
-[]
