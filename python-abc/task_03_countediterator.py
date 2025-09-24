@@ -4,7 +4,10 @@
 
 
 class CountedIterator:
-    """A class that extends the built-in iterator obtained from the iter function."""
+    """
+    A class that extends the built-in
+    iterator obtained from the iter function.
+    """
 
     def __init__(self, iterable):
         """A function initiator."""
@@ -22,5 +25,8 @@ class CountedIterator:
         return item
 
     def get_count(self):
-        """A method to retrieve and print the number of items that have been fetched."""
+        """
+        A method to retrieve and print the
+        number of items that have been fetched.
+        """
         return self.count
