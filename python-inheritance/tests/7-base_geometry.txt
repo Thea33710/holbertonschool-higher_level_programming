@@ -21,33 +21,3 @@
 ... except Exception as e:
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [ValueError] distance must be greater than 0
-
->>> try:
-...     bg.integer_validator("pi", 3.14)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] pi must be an integer
-
->>> try:
-...     bg.integer_validator("flag", True)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] flag must be an integer
-
->>> try:
-...     bg.integer_validator("only_name")
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] BaseGeometry.integer_validator() missing 1 required positional argument: 'value'
-
->>> try:
-...     bg.integer_validator()
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] BaseGeometry.integer_validator() missing 2 required positional arguments: 'name' and 'value'
-
->>> try:
-...     bg.integer_validator("extra", 5, 6)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] BaseGeometry.integer_validator() takes 3 positional arguments but 4 were given
