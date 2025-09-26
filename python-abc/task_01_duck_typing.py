@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """Abstract base class."""
 
 from abc import ABC, abstractmethod
@@ -19,9 +20,6 @@ class Shape(ABC):
         pass
 
 
-"""A circle class."""
-
-
 class Circle(Shape):
     """A circle class that inherite from Shape."""
 
@@ -36,9 +34,6 @@ class Circle(Shape):
     def perimeter(self):
         """The perimeter of the circle."""
         return 2 * math.pi * self.radius
-
-
-"""A Rectangle class."""
 
 
 class Rectangle(Shape):
