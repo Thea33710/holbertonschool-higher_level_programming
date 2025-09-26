@@ -25,9 +25,9 @@ class Circle(Shape):
 
     def __init__(self, radius):
         """A initializer for circle."""
+        self.radius = radius
         if radius < 0:
             raise ValueError("The radius must be a positive integer")
-        self.radius = radius
 
     def area(self):
         """The area of the circle."""
