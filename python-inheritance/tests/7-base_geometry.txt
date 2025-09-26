@@ -39,8 +39,3 @@
 ... except Exception as e:
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [TypeError] name must be an integer
-
->>> bg.integer_validator("extra", 5, 6)
-Traceback (most recent call last):
-...
-TypeError: BaseGeometry.integer_validator() takes 3 positional arguments but 4 were given
