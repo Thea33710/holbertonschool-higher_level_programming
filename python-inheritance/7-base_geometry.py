@@ -7,7 +7,12 @@ class BaseGeometry:
     """A geometry class."""
 
     def area(self):
-        """Raises an Exception with a message."""
+        """
+        Raises an Exception with a message.
+
+        Raises:
+            Exception: If the area is not in the subclass.
+        """
         raise Exception("area() is not implemented")
 
     def integer_validator(self, name, value):
