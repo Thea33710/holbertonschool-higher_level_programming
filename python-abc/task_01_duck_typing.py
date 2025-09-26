@@ -7,11 +7,11 @@ import math
 
 
 class Shape(ABC):
-    """A class that inherite from ABC."""
+    """A class that inherits from ABC."""
 
     @abstractmethod
     def area(self):
-        """A method to put in sublcasses."""
+        """A method to put in subclasses."""
         pass
 
     @abstractmethod
@@ -21,10 +21,10 @@ class Shape(ABC):
 
 
 class Circle(Shape):
-    """A circle class that inherite from Shape."""
+    """A circle class that inherits from Shape."""
 
     def __init__(self, radius):
-        """A initiator for circle."""
+        """A initializer for circle."""
         self.radius = radius
 
     def area(self):
@@ -37,10 +37,10 @@ class Circle(Shape):
 
 
 class Rectangle(Shape):
-    """A Rectangle class that inherite from Shape."""
+    """A Rectangle class that inherits from Shape."""
 
     def __init__(self, width, height):
-        """A initiator for Rectangle."""
+        """A initializer for Rectangle."""
         self.width = width
         self.height = height
 
@@ -54,6 +54,6 @@ class Rectangle(Shape):
 
 
 def shape_info(shape):
-    """Some informations."""
-    print(f"Area: {shape.area():}")
-    print(f"Perimeter: {shape.perimeter():}")
+    """Some information."""
+    print(f"Area: {shape.area()}")
+    print(f"Perimeter: {shape.perimeter()}")
