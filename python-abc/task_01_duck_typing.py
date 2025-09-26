@@ -25,20 +25,16 @@ class Circle(Shape):
 
     def __init__(self, radius):
         """A initializer for circle."""
-        if radius <= 0:
-            raise TypeError("The radius must be a positive integer")
+        if radius < 0:
+            raise ValueError("The radius must be a positive integer")
         self.radius = radius
 
     def area(self):
         """The area of the circle."""
-        if self.radius <= 0:
-            return 0
         return math.pi * (self.radius ** 2)
 
     def perimeter(self):
         """The perimeter of the circle."""
-        if self.radius <= 0:
-            return 0
         return 2 * math.pi * self.radius
 
 
