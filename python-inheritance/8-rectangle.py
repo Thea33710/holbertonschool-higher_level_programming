@@ -8,8 +8,12 @@ class BaseGeometry:
     """A geometry class."""
 
     def area(self):
+        """
+        Raises an Exception with a message.
 
-        """Raises an Exception with a message."""
+        Raises:
+            Exception: If the area is not in the subclass.
+        """
 
         raise Exception("area() is not implemented")
 
@@ -34,11 +38,7 @@ class BaseGeometry:
             raise ValueError(f"{name} must be greater than 0")
 
 
-"""A rectangle class."""
-
-
 class Rectangle(BaseGeometry):
-
     """A class that inherits from BaseGeometry"""
 
     def __init__(self, width, height):
@@ -53,5 +53,6 @@ class Rectangle(BaseGeometry):
 
         self.integer_validator("width", width)
         self.integer_validator("height", height)
+
         self.__width = width
         self.__height = height
