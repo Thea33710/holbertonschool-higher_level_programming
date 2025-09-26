@@ -1,8 +1,8 @@
 #!/usr/bin/python3
+"""Abstract base class."""
 
 from abc import ABC, abstractmethod
 import math
-"""Abstract base class."""
 
 
 class Shape(ABC):
