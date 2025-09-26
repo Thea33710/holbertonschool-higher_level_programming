@@ -31,10 +31,14 @@ class Circle(Shape):
 
     def area(self):
         """The area of the circle."""
+        if self.radius < 0:
+            return 0
         return math.pi * (self.radius ** 2)
 
     def perimeter(self):
         """The perimeter of the circle."""
+        if self.radius < 0:
+            return 0
         return 2 * math.pi * self.radius
 
 
