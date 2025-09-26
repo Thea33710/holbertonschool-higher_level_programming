@@ -15,7 +15,11 @@
 >>> single = MyList([42])
 >>> single.print_sorted()
 [42]
+>>> print(single)
+[42]
 
 >>> sorted_list = MyList([1, 2, 3])
 >>> sorted_list.print_sorted()
+[1, 2, 3]
+>>> print(sorted_list)
 [1, 2, 3]
