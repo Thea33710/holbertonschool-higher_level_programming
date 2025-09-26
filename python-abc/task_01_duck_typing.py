@@ -12,12 +12,12 @@ class Shape(ABC):
     @abstractmethod
     def area(self):
         """A method to put in subclasses."""
-        pass
+        raise Exception("area() is not implemented")
 
     @abstractmethod
     def perimeter(self):
         """A method to put in subclasses."""
-        pass
+        raise Exception("perimeter() is not implemented")
 
 
 class Circle(Shape):
