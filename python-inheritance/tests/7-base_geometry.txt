@@ -33,3 +33,9 @@
 ... except Exception as e:
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [Exception] area() is not implemented
+
+>>> try:
+...     bg.integer_validator("name", 3.14)
+... except Exception as e:
+...     print("[{}] {}".format(e.__class__.__name__, e))
+[TypeError] name must be an integer
