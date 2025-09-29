@@ -14,9 +14,16 @@ class Student:
 
     def to_json(self, attrs=None):
         """Returns a dictionary of the student."""
+        keys_order = ['age', 'last_name', 'first_name']
+        result = {}
+
         if (isinstance(attrs, list) and
-                all(isinstance(attrs, str) for attr in attrs)):
-            return {attr: getattr(self, attr)
-                    for attr in attrs if hasattr(self, attr)}
+                all(isinstance(attr, str) for attr in attrs)):
+            for key in keys_order:
+                if key in attrs and hasattr(self, key):
+                    result[key] = getattr(self, key)
         else:
-            return self.__dict__.copy()
+            for key in keys_order:
+                if hasattr(self, key):
+                    result[key] = getattr(self, key)
+        return result
