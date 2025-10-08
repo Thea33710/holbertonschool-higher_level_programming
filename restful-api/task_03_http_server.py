@@ -43,3 +43,9 @@ class Serveur(BaseHTTPRequestHandler):
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             self.wfile.write(b"Endpoint not found")
+
+if __name__ == "__main__":
+    PORT = 8000
+    server = HTTPServer(('', PORT), Serveur)
+    print(f'Server running on port {PORT}')
+    server.serve_forever()
