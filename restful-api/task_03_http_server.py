@@ -10,6 +10,7 @@ class Serveur(BaseHTTPRequestHandler):
     """A subclass of BaseHTTPRquestHandler."""
 
     def do_GET(self):
+        """A new do_GET method."""
         if self.path == "/" or self.path == "":
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
