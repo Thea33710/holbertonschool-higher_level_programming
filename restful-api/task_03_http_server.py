@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """Develop a simple API using Python with the `http.server` module."""
 
@@ -6,11 +6,14 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 
-class Serveur(BaseHTTPRequestHandler):
+class SimpleServer(BaseHTTPRequestHandler):
     """A subclass of BaseHTTPRquestHandler."""
 
     def do_GET(self):
         """A new do_GET method."""
+
+        print(f"Requête reçue pour : {self.path}")
+
         if self.path == "/" or self.path == "":
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
@@ -44,8 +47,13 @@ class Serveur(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"Endpoint not found")
 
+
 if __name__ == "__main__":
     PORT = 8000
-    server = HTTPServer(('', PORT), Serveur)
+    server = HTTPServer(('', PORT), SimpleServer)
     print(f'Server running on port {PORT}')
-    server.serve_forever()
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nServer stopped by user")
+        server.server_close()
