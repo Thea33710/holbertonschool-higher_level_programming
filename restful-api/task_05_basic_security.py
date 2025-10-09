@@ -32,6 +32,7 @@ users = {
 
 @auth.verify_password
 def verify_password(username, password):
+    """Checks the password."""
     user = users.get(username)
     if not user:
         return False
@@ -41,11 +42,13 @@ def verify_password(username, password):
 @app.route('/basic-protected')
 @auth.login_required
 def basic_protected():
+    """Protection."""
     return "Basic Auth: Access Granted"
 
 
 @app.route('/login', methods=['POST'])
 def login():
+    """Checks login."""
     if not request.is_json:
         return jsonify({"error": "Missing JSON in request"}), 400
 
@@ -69,12 +72,14 @@ def login():
 @app.route('/jwt-protected')
 @jwt_required()
 def jwt_protected():
+    """Gives the access."""
     return "JWT Auth: Access Granted"
 
 
 @app.route('/admin-only')
 @jwt_required()
 def admin_only():
+    """Admin."""
     claims = get_jwt()
     role = claims.get("role", None)
     if role != "admin":
@@ -84,31 +89,37 @@ def admin_only():
 
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
+    """Error."""
     return jsonify({"error": "Missing Authorization Header"}), 401
 
 
 @jwt.invalid_token_loader
 def invalid_token_callback(callback):
+    """Error."""
     return jsonify({"error": "Invalid Token"}), 401
 
 
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_payload):
+    """Error."""
     return jsonify({"error": "Token expired"}), 401
 
 
 @jwt.revoked_token_loader
 def revoked_token_callback(jwt_header, jwt_payload):
+    """Error."""
     return jsonify({"error": "Token revoked"}), 401
 
 
 @jwt.needs_fresh_token_loader
 def needs_fresh_token_callback(jwt_header, jwt_payload):
+    """Error."""
     return jsonify({"error": "Fresh token required"}), 401
 
 
 @jwt.user_lookup_error_loader
 def user_lookup_error_callback(jwt_header, jwt_payload):
+    """Error."""
     return jsonify({"error": "User not found"}), 401
 
 
