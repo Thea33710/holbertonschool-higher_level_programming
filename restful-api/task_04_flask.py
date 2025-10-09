@@ -7,22 +7,6 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 
-users = {
-    "jane": {
-        "username": "jane",
-        "name": "Jane",
-        "age": 28,
-        "city": "Los Angeles"
-    },
-    "john": {
-        "username": "john",
-        "name": "John",
-        "age": 30,
-        "city": "New York"
-    }
-}
-
-
 @app.route('/')
 def home():
     """A home method."""
@@ -32,7 +16,21 @@ def home():
 @app.route('/data', methods=['GET'])
 def get_data():
     """A method to get datas."""
-    return jsonify(users)
+    data = users = {
+        "jane": {
+            "username": "jane",
+            "name": "Jane",
+            "age": 28,
+            "city": "Los Angeles"
+        },
+        "john": {
+            "username": "john",
+            "name": "John",
+            "age": 30,
+            "city": "New York"
+        }
+    }
+    return jsonify(data)
 
 
 if __name__ == "__main__":
