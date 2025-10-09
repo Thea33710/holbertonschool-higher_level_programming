@@ -25,11 +25,13 @@ users = {
 
 @app.route('/')
 def home():
+    """A home method."""
     return "Welcome to the Flask API!"
 
 
 @app.route('/data', methods=['GET'])
 def get_data():
+    """A method to get datas."""
     return jsonify(users)
 
 
