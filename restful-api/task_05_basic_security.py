@@ -4,15 +4,10 @@
 
 from flask import Flask, jsonify, request
 from flask_httpauth import HTTPBasicAuth
+from flask_jwt_extended import JWTManager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import (
-    JWTManager, create_access_token, jwt_required,
-    get_jwt_identity, get_jwt
-)
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'super-secret-key-change-me'
-
 auth = HTTPBasicAuth()
 jwt = JWTManager(app)
 
@@ -32,95 +27,74 @@ users = {
 
 @auth.verify_password
 def verify_password(username, password):
-    """Checks the password."""
+    """Checks if username and password are correct"""
     user = users.get(username)
-    if not user:
-        return False
-    return check_password_hash(user['password'], password)
+    if user and check_password_hash(user['passwowrd'], password):
+        return user
+    return None
 
 
 @app.route('/basic-protected')
 @auth.login_required
 def basic_protected():
-    """Protection."""
     return "Basic Auth: Access Granted"
 
 
 @app.route('/login', methods=['POST'])
 def login():
-    """Checks login."""
-    if not request.is_json:
-        return jsonify({"error": "Missing JSON in request"}), 400
+    """Try to log."""
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    user = users.get(username)
 
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
-    if not username or not password:
-        return jsonify({"error": "Missing username or password"}), 400
-
-    user = users.get(username, None)
     if not user or not check_password_hash(user['password'], password):
-        return jsonify({"error": "Bad username or password"}), 401
+        return jsonify({"error": "Invalid credentials"}), 401
 
-    additional_claims = {"role": user["role"]}
     access_token = create_access_token(
-        identity=username,
-        additional_claims=additional_claims
+        identity={"username": username, "role": user['role']}
     )
     return jsonify(access_token=access_token), 200
 
 
 @app.route('/jwt-protected')
 @jwt_required()
-def jwt_protected():
-    """Gives the access."""
-    return "JWT Auth: Access Granted"
-
-
-@app.route('/admin-only')
-@jwt_required()
 def admin_only():
-    """Admin."""
-    claims = get_jwt()
-    role = claims.get("role", None)
-    if role != "admin":
+    """For admins only."""
+    identity = get_jwt_identity()
+    if identity["role"] != "admin":
         return jsonify({"error": "Admin access required"}), 403
     return "Admin Access: Granted"
 
 
 @jwt.unauthorized_loader
-def unauthorized_callback(callback):
-    """Error."""
-    return jsonify({"error": "Missing Authorization Header"}), 401
+def handle_unauthorized_error(err):
+    """Token invalid or missing."""
+    return jsonify({"error": "Missing or invalid token"}), 401
 
 
 @jwt.invalid_token_loader
-def invalid_token_callback(callback):
-    """Error."""
-    return jsonify({"error": "Invalid Token"}), 401
+def handle_invalid_token_error(err):
+    """Token invalid."""
+    return jsonify({"error": "Invalid token"}), 401
 
 
 @jwt.expired_token_loader
-def expired_token_callback(jwt_header, jwt_payload):
-    """Error."""
-    return jsonify({"error": "Token expired"}), 401
+def handle_expired_token_error(jwt_header, jwt_payload):
+    """Token expired."""
+    return jsonify({"error": "Token has expired"}), 401
 
 
 @jwt.revoked_token_loader
-def revoked_token_callback(jwt_header, jwt_payload):
-    """Error."""
-    return jsonify({"error": "Token revoked"}), 401
+def handle_revoked_token_error(jwt_header, jwt_payload):
+    """Token revoked."""
+    return jsonify({"error": "Invalid token"}), 401
 
 
 @jwt.needs_fresh_token_loader
-def needs_fresh_token_callback(jwt_header, jwt_payload):
-    """Error."""
+def handle_needs_fresh_token_error(jwt_header, jwt_payload):
+    """Needs fresh token."""
     return jsonify({"error": "Fresh token required"}), 401
-
-
-@jwt.user_lookup_error_loader
-def user_lookup_error_callback(jwt_header, jwt_payload):
-    """Error."""
-    return jsonify({"error": "User not found"}), 401
 
 
 if __name__ == "__main__":
