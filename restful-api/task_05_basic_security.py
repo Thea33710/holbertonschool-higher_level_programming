@@ -4,11 +4,15 @@
 
 from flask import Flask, jsonify, request
 from flask_httpauth import HTTPBasicAuth
-from flask_jwt_extended import JWTManager
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import (
+    JWTManager, create_access_token, jwt_required,
+    get_jwt_identity, get_jwt
+)
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
+app.config['JWT_SECRET_KEY'] = 'token_securise'
 jwt = JWTManager(app)
 
 users = {
@@ -29,15 +33,16 @@ users = {
 def verify_password(username, password):
     """Checks if username and password are correct"""
     user = users.get(username)
-    if user and check_password_hash(user['passwowrd'], password):
-        return user
+    if user and check_password_hash(user['password'], password):
+        return username
     return None
 
 
-@app.route('/basic-protected')
+@app.route('/basic-protected', methods=['GET'])
 @auth.login_required
 def basic_protected():
-    return "Basic Auth: Access Granted"
+    """Basic protecetd."""
+    return jsonify({"message": "Basic Auth: Access Granted"})
 
 
 @app.route('/login', methods=['POST'])
@@ -51,20 +56,26 @@ def login():
     if not user or not check_password_hash(user['password'], password):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    access_token = create_access_token(
+    token = create_access_token(
         identity={"username": username, "role": user['role']}
     )
-    return jsonify(access_token=access_token), 200
+    return jsonify({"access_token": token}), 200
 
 
-@app.route('/jwt-protected')
+@app.route('/jwt-protected', methods=['GET'])
+@jwt_required()
+def jwt_protected():
+    """protected route."""
+    return jsonify({"message": "JWT Auth: Access Granted"}), 200
+
+
+@app.route("/admin-only", methods=['GET'])
 @jwt_required()
 def admin_only():
-    """For admins only."""
     identity = get_jwt_identity()
-    if identity["role"] != "admin":
+    if identity.get("role") != "admin":
         return jsonify({"error": "Admin access required"}), 403
-    return "Admin Access: Granted"
+    return jsonify({"message": "Admin Access: Granted"}), 200
 
 
 @jwt.unauthorized_loader
@@ -80,19 +91,19 @@ def handle_invalid_token_error(err):
 
 
 @jwt.expired_token_loader
-def handle_expired_token_error(jwt_header, jwt_payload):
+def handle_expired_token_error(err):
     """Token expired."""
     return jsonify({"error": "Token has expired"}), 401
 
 
 @jwt.revoked_token_loader
-def handle_revoked_token_error(jwt_header, jwt_payload):
+def handle_revoked_token_error(err):
     """Token revoked."""
-    return jsonify({"error": "Invalid token"}), 401
+    return jsonify({"error": "Token has been revoked"}), 401
 
 
 @jwt.needs_fresh_token_loader
-def handle_needs_fresh_token_error(jwt_header, jwt_payload):
+def handle_needs_fresh_token_error(err):
     """Needs fresh token."""
     return jsonify({"error": "Fresh token required"}), 401
 
