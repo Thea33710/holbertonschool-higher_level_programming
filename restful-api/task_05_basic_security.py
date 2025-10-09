@@ -31,51 +31,54 @@ users = {
 
 @auth.verify_password
 def verify_password(username, password):
-    """Checks if username and password are correct"""
     user = users.get(username)
     if user and check_password_hash(user['password'], password):
-        return username
+        return user
     return None
 
 
-@app.route('/basic-protected', methods=['GET'])
+@app.route("/basic-protected", methods=["GET"])
 @auth.login_required
 def basic_protected():
     """Basic protecetd."""
-    return "Basic Auth: Access Granted"
+    return jsonify({"message": "Basic Auth: Access Granted"}), 200
 
 
-@app.route('/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login():
     """Try to log."""
     data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
+    if not data or "username" not in data or "password" not in data:
+        return jsonify({"error": "Missing username or password"}), 400
+
+    username = data["username"]
+    password = data["password"]
     user = users.get(username)
 
-    if not user or not check_password_hash(user['password'], password):
+    if not user or not check_password_hash(user["password"], password):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    token = create_access_token(
-        identity={"username": username, "role": user['role']}
-    )
-    return jsonify({"access_token": token}), 200
+    access_token = create_access_token(
+            identity=username, additional_claims={"role": user["role"]}
+        )
+    return jsonify({"access_token": access_token}), 200
 
 
-@app.route('/jwt-protected', methods=['GET'])
+@app.route("/jwt-protected", methods=["GET"])
 @jwt_required()
 def jwt_protected():
     """protected route."""
-    return "JWT Auth: Access Granted"
+    return jsonify({"message": "JWT Auth: Access Granted"}), 200
 
 
-@app.route('/admin-only', methods=['GET'])
+@app.route("/admin-only", methods=["GET"])
 @jwt_required()
 def admin_only():
-    identity = get_jwt_identity()
-    if identity("role") != "admin":
+    """For admins."""
+    claims = get_jwt()
+    if claims.get("role") != "admin":
         return jsonify({"error": "Admin access required"}), 403
-    return "Admin Access: Granted"
+    return jsonify({"message": "Admin Access: Granted"}), 200
 
 
 @jwt.unauthorized_loader
