@@ -39,6 +39,12 @@ def verify_password(username, password):
     return None
 
 
+@auth.error_handler
+def unauthorized_error():
+    """Returns an error message."""
+    return jsonify({"error": "Unauthorized access"}), 401
+
+
 @app.route("/basic-protected", methods=["GET"])
 @auth.login_required
 def basic_protected():
@@ -96,13 +102,13 @@ def handle_invalid_token_error(err):
 
 
 @jwt.expired_token_loader
-def handle_expired_token_error(err):
+def handle_expired_token_error(jwt_header, jwt_payload):
     """Token has expired"""
     return jsonify({"error": "Token has expired"}), 401
 
 
 @jwt.revoked_token_loader
-def handle_revoked_token_error(err):
+def handle_revoked_token_error(jwt_header, jwt_payload):
     """Token has been revoked"""
     return jsonify({"error": "Token has been revoked"}), 401
 
