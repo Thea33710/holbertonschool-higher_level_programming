@@ -57,7 +57,7 @@ def login():
     """Function to creat an account."""
     data = request.get_json()
     if not data or "username" not in data or "password" not in data:
-        return jsonify({"error": "Missing username or password"}), 401
+        return jsonify({"error": "Missing username or password"}), 400
 
     username = data["username"]
     password = data["password"]
