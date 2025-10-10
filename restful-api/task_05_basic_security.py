@@ -1,4 +1,4 @@
-#!/usr/bin/venv python3
+#!/usr/bin/python3
 
 """API Security and Authentication Techniques"""
 
@@ -47,7 +47,7 @@ def basic_protected():
 def login():
     data = request.get_json()
     if not data or "username" not in data or "password" not in data:
-        return jsonify({"error": "Missing credentials"}), 401
+        return jsonify({"error": "Missing username or password"}), 401
 
     username = data["username"]
     password = data["password"]
