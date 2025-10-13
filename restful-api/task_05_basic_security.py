@@ -69,7 +69,7 @@ def login():
     access_token = create_access_token(
             identity={"username": username, "role": users[username]["role"]}
         )
-    return access_token, 200
+    return {'access_token': access_token}, 200
 
 
 @app.route("/jwt-protected", methods=["GET"])
