@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""Prints all State objects that have the letter 'a' from the database hbtn_0e_4_usa."""
+"""
+Prints all State objects that have the
+letter 'a' from the database hbtn_0e_4_usa.
+"""
 
 import sys
 from sqlalchemy import create_engine
@@ -23,7 +26,7 @@ if __name__ == "__main__":
 
     states = session.query(State)\
         .filter(State.name.like('%a%'))\
-            .order_by(State.id).all()
+        .order_by(State.id).all()
 
     for state in states:
         print(f"{state.id}: {state.name}")
