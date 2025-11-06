@@ -2,11 +2,11 @@
 
 const n = parseInt(process.argv[2]);
 
-function factorial(num) {
-    if (isNaN(num) || num <= 1) {
-        return 1;
-    }
-    return num * factorial(num - 1);
+function factorial (n) {
+  if (isNaN(n) || n <= 1) {
+    return 1;
+  }
+  return n * factorial(n - 1);
 }
 
-console.log(factorial(num - 1));
+console.log(factorial(n - 1));
