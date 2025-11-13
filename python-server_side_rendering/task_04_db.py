@@ -12,12 +12,7 @@ def read_json_file():
     try:
         with open('products.json', 'r') as f:
             data = json.load(f)
-            if isinstance(data, list):
-                return data
-            elif isinstance(data, dict) and 'products' in data:
-                return data['products']
-            else:
-                return None
+        return data
     except Exception:
         return None
 
@@ -44,24 +39,30 @@ def read_sqlite_data(product_id=None):
     """Reads product data from SQLite database."""
     try:
         conn = sqlite3.connect('products.db')
+        conn.row_factory = sqlite3.Row  # accès par clé
         cursor = conn.cursor()
 
-        cursor.execute('SELECT id, name, category, price FROM Products')
+        if product_id:
+            cursor.execute(
+                "SELECT * FROM Products WHERE id = ?",
+                (product_id,)
+            )
+        else:
+            cursor.execute("SELECT * FROM Products")
+
         rows = cursor.fetchall()
-
-        products = []
-
-        for row in rows:
-            product = {
-                'id': row[0],
-                'name': row[1],
-                'category': row[2],
-                'price': row[3]
-            }
-            products.append(product)
-
         conn.close()
 
+        # Conversion des lignes SQLite en dictionnaires
+        products = [
+            {
+                "id": row["id"],
+                "name": row["name"],
+                "category": row["category"],
+                "price": row["price"]
+            }
+            for row in rows
+        ]
         return products
     except Exception:
         return None
@@ -71,9 +72,6 @@ def read_sqlite_data(product_id=None):
 
 @app.route('/products')
 def products():
-    """
-    Route to display products from JSON, CSV file, or SQLite database.
-    """
     source = request.args.get('source')
     product_id = request.args.get('id', type=int)
 
