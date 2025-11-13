@@ -61,7 +61,11 @@ def products():
             products = []
             error = "Product not found"
 
-    return render_template('product_display.html', products=products, error=error)
+    return render_template(
+        'product_display.html',
+        products=products,
+        error=error
+    )
 
 
 if __name__ == '__main__':
