@@ -11,7 +11,12 @@ def read_json_file():
     try:
         with open('products.json', 'r') as f:
             data = json.load(f)
-        return data
+            if isinstance(data, list):
+                return data
+            elif isinstance(data, dict) and 'products' in data:
+                return data['products']
+            else:
+                return None
     except Exception:
         return None
 
