@@ -4,6 +4,7 @@ import csv
 
 app = Flask(__name__)
 
+
 # -------- Helper functions --------
 def read_json_file():
     """Reads product data from JSON file."""
@@ -60,7 +61,11 @@ def products():
             error_message = f"Product with id {product_id} not found."
             return render_template('product_display.html', error=error_message)
 
-    return render_template('product_display.html', products=products_data, source=source)
+    return render_template(
+        'product_display.html',
+        products=products_data,
+        source=source
+    )
 
 
 if __name__ == '__main__':

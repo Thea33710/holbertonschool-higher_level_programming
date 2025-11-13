@@ -5,8 +5,8 @@ import sqlite3
 
 app = Flask(__name__)
 
-# ---------- Helper functions ----------
 
+# ---------- Helper functions ----------
 def read_json_file():
     """Reads product data from JSON file."""
     try:
@@ -43,7 +43,10 @@ def read_sqlite_data(product_id=None):
         cursor = conn.cursor()
 
         if product_id:
-            cursor.execute("SELECT * FROM Products WHERE id = ?", (product_id,))
+            cursor.execute(
+                "SELECT * FROM Products WHERE id = ?",
+                (product_id,)
+            )
         else:
             cursor.execute("SELECT * FROM Products")
 
@@ -83,7 +86,10 @@ def products():
     elif source == "sql":
         products_data = read_sqlite_data(product_id)
     else:
-        error_message = "Wrong source. Please use ?source=json, ?source=csv, or ?source=sql."
+        error_message = (
+            "Wrong source. Please use ?source=json,"
+            " ?source=csv, or ?source=sql."
+        )
         return render_template('product_display.html', error=error_message)
 
     # Gestion d’erreurs de lecture
@@ -97,11 +103,19 @@ def products():
 
     # Aucun produit trouvé
     if not products_data:
-        error_message = f"Product with id {product_id} not found." if product_id else "No products found."
+        error_message = (
+            f"Product with id {product_id} not found."
+            if product_id
+            else "No products found."
+        )
         return render_template('product_display.html', error=error_message)
 
     # Sinon, on affiche les données
-    return render_template('product_display.html', products=products_data, source=source)
+    return render_template(
+        'product_display.html',
+        products=products_data,
+        source=source
+    )
 
 
 if __name__ == '__main__':
