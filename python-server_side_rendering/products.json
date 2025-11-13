@@ -10,11 +10,5 @@
         "name": "Coffee Mug",
         "category": "Home Goods",
         "price": 15.99
-    },
-    {
-        "id": 3,
-        "name": "Notebook",
-        "category": "Stationery",
-        "price": 5.49
     }
 ]
