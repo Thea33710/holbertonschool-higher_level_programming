@@ -14,58 +14,45 @@ def read_json_file():
             data = json.load(f)
         return data
     except Exception:
-        return None
+        return []
 
 
 def read_csv_file():
     """Reads product data from CSV file."""
     products = []
     try:
-        with open('products.csv', 'r') as f:
+        with open('products.csv', 'r', newline='') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                products.append({
-                    "id": int(row["id"]),
-                    "name": row["name"],
-                    "category": row["category"],
-                    "price": float(row["price"])
-                })
-        return products
+                row['id'] = int(row['id'])
+                row['price'] = float(row['price'])
+                products.append(row)
     except Exception:
-        return None
+        pass
+    return products
 
 
 def read_sqlite_data(product_id=None):
     """Reads product data from SQLite database."""
+    products = []
     try:
         conn = sqlite3.connect('products.db')
-        conn.row_factory = sqlite3.Row  # accès par clé
+        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-
-        if product_id:
-            cursor.execute(
-                "SELECT * FROM Products WHERE id = ?",
-                (product_id,)
-            )
-        else:
-            cursor.execute("SELECT * FROM Products")
-
+        cursor.execute('SELECT * FROM Products')
         rows = cursor.fetchall()
+        for row in rows:
+            products.append({
+                'id': row['id'],
+                'name': row['name'],
+                'category': row['category'],
+                'price': row['price']
+            })
         conn.close()
-
-        # Conversion des lignes SQLite en dictionnaires
-        products = [
-            {
-                "id": row["id"],
-                "name": row["name"],
-                "category": row["category"],
-                "price": row["price"]
-            }
-            for row in rows
-        ]
-        return products
     except Exception:
-        return None
+        products = None
+    return products
+
 
 
 # ---------- Routes ----------
@@ -73,49 +60,31 @@ def read_sqlite_data(product_id=None):
 @app.route('/products')
 def products():
     source = request.args.get('source')
-    product_id = request.args.get('id', type=int)
+    id_param = request.args.get('id', type=int)
+    error = None
 
-    products_data = []
-    error_message = None
-
-    # Choix de la source
-    if source == "json":
-        products_data = read_json_file()
-    elif source == "csv":
-        products_data = read_csv_file()
-    elif source == "sql":
-        products_data = read_sqlite_data(product_id)
+    if source == 'json':
+        products = read_json_file()
+    elif source == 'csv':
+        products = read_csv_file()
+    elif source == 'sql':
+        products = read_sqlite_db()
+        if products is None:
+            error = "Database error"
+            products = []
     else:
-        error_message = (
-            "Wrong source. Please use ?source=json,"
-            " ?source=csv, or ?source=sql."
-        )
-        return render_template('product_display.html', error=error_message)
+        products = []
+        error = "Wrong source"
 
-    # Gestion d’erreurs de lecture
-    if products_data is None:
-        error_message = "Error reading data from the selected source."
-        return render_template('product_display.html', error=error_message)
+    if id_param is not None:
+        filtered = [p for p in products if p['id'] == id_param]
+        if filtered:
+            products = filtered
+        else:
+            products = []
+            error = "Product not found"
 
-    # Filtrage (pour JSON et CSV)
-    if source in ["json", "csv"] and product_id is not None:
-        products_data = [p for p in products_data if p["id"] == product_id]
-
-    # Aucun produit trouvé
-    if not products_data:
-        error_message = (
-            f"Product with id {product_id} not found."
-            if product_id
-            else "No products found."
-        )
-        return render_template('product_display.html', error=error_message)
-
-    # Sinon, on affiche les données
-    return render_template(
-        'product_display.html',
-        products=products_data,
-        source=source
-    )
+    return render_template('product_display.html', products=products, error=error)
 
 
 if __name__ == '__main__':
