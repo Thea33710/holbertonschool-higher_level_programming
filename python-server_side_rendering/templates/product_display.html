@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Product Display</title>
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <h1>Product Display</h1>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% elif products %}
+        <p>Showing products from <strong>{{ source.upper() }}</strong> file:</p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price ($)</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ "%.2f"|format(product.price) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+
+    {% include 'footer.html' %}
+</body>
+</html>
